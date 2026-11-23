@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-tibetan: "Noto Serif Tibetan", "Jomolhari", serif;
+
+  /* Monastery palette: maroon robes, saffron, whitewashed walls */
+  --color-maroon-50: #fbf3f3;
+  --color-maroon-100: #f4e1e1;
+  --color-maroon-700: #8a1f24;
+  --color-maroon-800: #6f171c;
+  --color-maroon-900: #4f1014;
+  --color-saffron-400: #f2b33d;
+  --color-saffron-500: #e39a17;
+  --color-stone-paper: #faf7f2;
+}
+
+html {
+  background: var(--color-stone-paper);
+  color: var(--color-stone-900);
+}
+
+[lang="bo"] {
+  font-family: var(--font-tibetan);
+  line-height: 1.9; /* Tibetan stacks need extra line height */
+}
