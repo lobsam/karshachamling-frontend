@@ -1,9 +1,10 @@
-import { Bo, CoverImage, RichText } from "../components/content";
+import { Bo, CoverImage, NotFoundMessage, RichText } from "../components/content";
 import { publicApi } from "../lib/api";
-import { notFoundOn404 } from "../lib/loaders";
+import { loadBySlug } from "../lib/loaders";
 import type { Route } from "./+types/page";
 
 export function meta({ loaderData }: Route.MetaArgs) {
+  if (!loaderData) return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
   return [
     { title: `${loaderData?.title ?? "Page"} — Karsha Chamling Monastery` },
     { name: "description", content: loaderData?.summary ?? "" },
@@ -11,10 +12,11 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  return notFoundOn404(publicApi.page(params.slug));
+  return loadBySlug(params.slug, publicApi.page);
 }
 
 export default function ContentPage({ loaderData: p }: Route.ComponentProps) {
+  if (!p) return <NotFoundMessage backTo="/" backLabel="← Home" />;
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="font-serif text-5xl text-maroon-900">{p.title}</h1>

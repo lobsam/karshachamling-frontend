@@ -1,6 +1,6 @@
 import { Form, NavLink, Outlet, redirect } from "react-router";
 
-import { ApiError, adminApi } from "../../lib/api";
+import { API_URL, ApiError, adminApi, errorMessage } from "../../lib/api";
 import type { Route } from "./+types/layout";
 
 export function meta() {
@@ -27,6 +27,43 @@ export async function clientAction() {
 
 export function HydrateFallback() {
   return <div className="p-8 text-stone-500">Loading…</div>;
+}
+
+/** Shown when the admin can't start at all — almost always because the API is unreachable. */
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const unreachable = !(error instanceof ApiError);
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-maroon-50 px-4">
+      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
+        <h1 className="font-serif text-3xl text-maroon-800">
+          {unreachable ? "Can't reach the server" : "Admin unavailable"}
+        </h1>
+        {unreachable ? (
+          <>
+            <p className="mt-3 text-stone-600">
+              The admin could not connect to the API at <code className="text-sm">{API_URL}</code>.
+            </p>
+            {import.meta.env.DEV && (
+              <p className="mt-3 text-sm text-stone-600">
+                Start the backend in <code>karshachamling-backend</code> with{" "}
+                <code className="rounded bg-stone-100 px-1">uv run pywrangler dev</code>, wait until it
+                says “Ready”, then retry.
+              </p>
+            )}
+          </>
+        ) : (
+          <p className="mt-3 text-stone-600">{errorMessage(error)}</p>
+        )}
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="mt-6 rounded-md bg-maroon-700 px-4 py-2 text-sm font-medium text-white hover:bg-maroon-800"
+        >
+          Retry
+        </button>
+      </div>
+    </main>
+  );
 }
 
 const NAV: { to: string; label: string; end?: boolean; adminOnly?: boolean; gap?: boolean }[] = [

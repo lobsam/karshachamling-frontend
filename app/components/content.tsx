@@ -59,3 +59,14 @@ export function Bo({ text, className = "" }: { text: string; className?: string 
     </span>
   );
 }
+
+/** Shown for the build-time placeholder page (a section with no items yet). */
+export function NotFoundMessage({ backTo, backLabel }: { backTo: string; backLabel: string }) {
+  return (
+    <div className="mx-auto max-w-2xl px-4 py-24 text-center">
+      <h1 className="font-serif text-4xl text-maroon-800">Page not found</h1>
+      <p className="mt-4 text-stone-600">The page you are looking for doesn't exist or has moved.</p>
+      <a href={backTo} className="mt-8 inline-block text-maroon-700 underline">{backLabel}</a>
+    </div>
+  );
+}
