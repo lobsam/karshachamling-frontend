@@ -1,4 +1,12 @@
-import { type RouteConfig, index, layout, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, layout, prefix, route } from "@react-router/dev/routes";
+
+// News, Events, Visitor Guide and Pages share one list screen and one editor screen
+const contentRoutes = (type: string) =>
+  prefix(type, [
+    index("routes/admin/content-list.tsx", { id: `admin-${type}-list` }),
+    route("new", "routes/admin/content-edit.tsx", { id: `admin-${type}-new` }),
+    route(":id", "routes/admin/content-edit.tsx", { id: `admin-${type}-edit` }),
+  ]);
 
 export default [
   // Public website — pre-rendered at build time
@@ -14,5 +22,16 @@ export default [
 
   // Admin dashboard — runs in the browser only
   route("admin/login", "routes/admin/login.tsx"),
-  route("admin", "routes/admin/layout.tsx", [index("routes/admin/dashboard.tsx")]),
+  route("admin", "routes/admin/layout.tsx", [
+    index("routes/admin/dashboard.tsx"),
+    ...contentRoutes("news"),
+    ...contentRoutes("events"),
+    ...contentRoutes("guide"),
+    ...contentRoutes("pages"),
+    route("media", "routes/admin/media.tsx"),
+    route("messages", "routes/admin/messages.tsx"),
+    route("donations", "routes/admin/donations.tsx"),
+    route("users", "routes/admin/users.tsx"),
+    route("account", "routes/admin/account.tsx"),
+  ]),
 ] satisfies RouteConfig;

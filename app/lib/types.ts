@@ -65,6 +65,34 @@ export interface User {
   created_at: string;
 }
 
+export interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
+export interface Donation {
+  id: number;
+  source: string;
+  razorpay_order_id: string | null;
+  razorpay_payment_id: string | null;
+  amount_paise: number;
+  currency: string;
+  donor_name: string;
+  donor_email: string;
+  donor_phone: string;
+  donor_pan: string;
+  donor_address: string;
+  message: string;
+  status: "created" | "paid" | "failed";
+  created_at: string;
+  paid_at: string | null;
+}
+
 export interface Dashboard {
   news_published: number;
   news_drafts: number;

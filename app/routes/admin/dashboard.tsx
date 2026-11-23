@@ -1,6 +1,7 @@
 import { adminApi } from "../../lib/api";
 import { formatInr } from "../../lib/format";
 import type { Route } from "./+types/dashboard";
+import { AdminError } from "../../components/admin/AdminError";
 
 export async function clientLoader() {
   return adminApi.dashboard();
@@ -36,4 +37,8 @@ export default function Dashboard({ loaderData: d }: Route.ComponentProps) {
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  return <AdminError />;
 }
