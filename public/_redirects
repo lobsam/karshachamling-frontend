@@ -1,3 +1,3 @@
 # /admin is a client-side app: serve the SPA shell for all its URLs
-/admin        /__spa-fallback.html  200
-/admin/*      /__spa-fallback.html  200
+/admin        /__spa-fallback  200
+/admin/*      /__spa-fallback  200

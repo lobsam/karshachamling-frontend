@@ -1,0 +1,11 @@
+// Deploys the pre-rendered site as a static-assets-only Worker (no server code).
+// Cloudflare runs `npm run build` and then `npx wrangler deploy`, which uploads build/client.
+// public/_redirects and public/_headers are applied by Workers static assets.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "karshachamling-frontend",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./build/client"
+  }
+}
